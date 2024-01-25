@@ -1,5 +1,5 @@
-create database sis_atenciones;
-use sis_atenciones;
+use dbatenciones;
+
 CREATE TABLE Usuarios (
     id_usuario INT PRIMARY KEY AUTO_INCREMENT,
     nombre VARCHAR(255),
@@ -24,11 +24,13 @@ CREATE TABLE Atenciones (
     nombre_cliente VARCHAR(255),
     celular VARCHAR(9),
     email VARCHAR(320) null,
+    doc_identidad varchar(20),
     modalidad VARCHAR(50),
     categoria VARCHAR(50),
     sub_categoria VARCHAR(50),
+    problema varchar(50),
     petitorio VARCHAR(255),
-    numero_atencion INT UNIQUE,
+    numero_atencion CHAR(11) ,
     fecha TIMESTAMP,
     id_usuario INT,
     estado TINYINT NOT NULL DEFAULT 1,

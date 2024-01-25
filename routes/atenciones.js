@@ -17,6 +17,7 @@ router.post('/', [
   check('celular', 'El celular es obligatorio').not().isEmpty(),
   check('email', 'El correo no es válido').optional({ checkFalsy: true }).isEmail(),
   check('modalidad', 'La modalidad es obligatoria').not().isEmpty(),
+  check('doc_identidad', 'El documento de indentidad no es válido').optional({ checkFalsy: true }).isLength({ min: 8, max: 12 }),
   check('categoria', 'La categoría es obligatoria').not().isEmpty(),
   check('petitorio', 'El petitorio es obligatorio').not().isEmpty(),
   check('id_usuario', 'El id del usuario es obligatorio').not().isEmpty(),

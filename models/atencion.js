@@ -28,6 +28,9 @@ const Atencion = db.define('Atencion', {
   celular: {
     type: DataTypes.NUMBER
   },
+  doc_identidad: {
+    type: DataTypes.STRING
+  },
   email: {
     type: DataTypes.STRING
   },

@@ -2,7 +2,11 @@ const Usuario = require('../models/usuario')
 const bcrypt = require('bcryptjs')
 
 const getUsuarios = async (req, res) => {
-  const usuarios = await Usuario.findAll()
+  const usuarios = await Usuario.findAll({
+    where: {
+      estado: true
+    }
+  })
   res.json({
     ok: true,
     usuarios
@@ -78,7 +82,8 @@ const deleteUsuarios = async (req, res) => {
         msg: 'No existe un usuario con el id ' + id
       })
     }
-    await usuario.destroy()
+    // await usuario.destroy()
+    await usuario.update({ estado: false })
     res.json({
       ok: true,
       msg: 'Usuario eliminado correctamente'

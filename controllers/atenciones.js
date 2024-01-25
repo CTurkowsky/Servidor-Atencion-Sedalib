@@ -3,24 +3,31 @@ const { Usuario, Atencion } = require('../models/associations')
 const { Op } = require('sequelize') // Importa el operador de Sequelize
 
 const getAtenciones = async (req, res) => {
-  const page = Number(req.query.page) || 1 // Obtiene el número de página de la consulta, por defecto es 1
-  const pageSize = Number(req.query.pageSize) || 50 // Obtiene el tamaño de página de la consulta, por defecto es 10
-  const fromDate = req.query.fromDate // Obtiene la fecha de inicio de la consulta
-  const toDate = req.query.toDate // Obtiene la fecha de fin de la consulta
+  const page = Number(req.query.page) || 1
+  const pageSize = Number(req.query.pageSize) || 50
+  const fromDate = req.query.fromDate
+  const toDate = req.query.toDate
+  const numeroAtencion = req.query.numeroAtencion
+  const codigoSuministro = req.query.codigoSuministro
 
   const where = {}
   if (fromDate && toDate) {
     where.fecha = {
-      [Op.between]: [new Date(fromDate), new Date(toDate)] // Filtra por fecha si se proporcionan fromDate y toDate
+      [Op.between]: [new Date(fromDate), new Date(toDate)]
     }
   }
+  if (numeroAtencion) {
+    where.numero_atencion = numeroAtencion
+  }
+  if (codigoSuministro) {
+    where.codigo_suministro = codigoSuministro
+  }
 
-  const total = await Atencion.count({ where }) // Cuenta el total de registros que cumplen con el criterio de búsqueda
-
+  const total = await Atencion.count({ where })
   let atenciones = await Atencion.findAll({
     where,
-    limit: pageSize, // Limita el número de resultados
-    offset: (page - 1) * pageSize, // Se salta los resultados de las páginas anteriores
+    limit: pageSize,
+    offset: (page - 1) * pageSize,
     include: [{
       model: Usuario,
       as: 'usuario',
@@ -33,12 +40,13 @@ const getAtenciones = async (req, res) => {
     plainAtencion.id_usuario = atencion.usuario.email
     delete plainAtencion.usuario
     return plainAtencion
-  }) // Mapea la respuesta para que el email del usuario esté en id_usuario
+  })
 
-  const hasMore = total > page * pageSize // Comprueba si hay más registros por recuperar
+  const hasMore = total > page * pageSize
 
-  res.json({ atenciones, hasMore }) // Devuelve los registros y la bandera hasMore
+  res.json({ atenciones, hasMore, total })
 }
+
 const getAtencion = async (req, res) => {
   const { id } = req.params
   const atencion = await Atencion.findByPk(id)
