@@ -43,6 +43,9 @@ const Atencion = db.define('Atencion', {
   sub_categoria: {
     type: DataTypes.STRING
   },
+  problema: {
+    type: DataTypes.STRING
+  },
   petitorio: {
     type: DataTypes.STRING
   },

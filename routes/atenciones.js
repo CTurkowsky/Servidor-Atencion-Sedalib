@@ -19,6 +19,7 @@ router.post('/', [
   check('modalidad', 'La modalidad es obligatoria').not().isEmpty(),
   check('doc_identidad', 'El documento de indentidad no es válido').optional({ checkFalsy: true }).isLength({ min: 8, max: 12 }),
   check('categoria', 'La categoría es obligatoria').not().isEmpty(),
+  check('problema', 'El problema es obligatorio').not().isEmpty(),
   check('petitorio', 'El petitorio es obligatorio').not().isEmpty(),
   check('id_usuario', 'El id del usuario es obligatorio').not().isEmpty(),
   check('sub_categoria', 'El tipo de categoría es obligatorio').not().isEmpty(),
